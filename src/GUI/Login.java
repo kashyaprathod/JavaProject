@@ -5,6 +5,7 @@
  */
 package GUI;
 
+import java.awt.Color;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -98,10 +99,23 @@ public class Login extends javax.swing.JFrame {
         jLabel4.setText("Your Account");
 
         TPassword.setToolTipText("Password");
+        TPassword.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                TPasswordFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                TPasswordFocusLost(evt);
+            }
+        });
 
         BForgotPassword.setBackground(new java.awt.Color(255, 204, 204));
         BForgotPassword.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         BForgotPassword.setText("Forgot Passowrd/Username");
+        BForgotPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BForgotPasswordActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -193,6 +207,9 @@ public class Login extends javax.swing.JFrame {
             ResultSet rs = pt.executeQuery();
             if (rs.next()) {
                 JOptionPane.showMessageDialog(null, "Welcome " + TUserName.getText(), "Sucessful Login", JOptionPane.PLAIN_MESSAGE);
+                MayBeHome home = new MayBeHome();
+                home.setVisible(true);
+                dispose();
             } else {
                 JOptionPane.showMessageDialog(null, "Invalid Username or Password ", "Unsucessful Login", JOptionPane.ERROR_MESSAGE);
             }
@@ -201,6 +218,25 @@ public class Login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e);
         }
     }//GEN-LAST:event_BLoginActionPerformed
+
+    private void TPasswordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_TPasswordFocusGained
+        if(TPassword.getPassword().equals("Enter Password")){
+            TPassword.setText("");
+            TPassword.setForeground(new Color(153,153,153));
+        }
+    }//GEN-LAST:event_TPasswordFocusGained
+
+    private void TPasswordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_TPasswordFocusLost
+        if(new String(TPassword.getPassword()).equals("")){
+            TPassword.setText("Enter Password");
+            TPassword.setForeground(new Color(153,153,153));
+        }
+    }//GEN-LAST:event_TPasswordFocusLost
+
+    private void BForgotPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BForgotPasswordActionPerformed
+        ForgotPassword fp = new ForgotPassword();
+        fp.setVisible(true);
+    }//GEN-LAST:event_BForgotPasswordActionPerformed
 
     /**
      * @param args the command line arguments

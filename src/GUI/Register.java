@@ -276,6 +276,7 @@ public class Register extends javax.swing.JFrame {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/miniProj", "root", "");
             String q = "insert into register values(?,?,?,?,?,?,?,?,?)";
+            
             PreparedStatement pt = con.prepareStatement(q);
             pt.setString(1, TFirstName.getText());
             pt.setString(2, TLastName.getText());
@@ -294,7 +295,14 @@ public class Register extends javax.swing.JFrame {
             pt.setString(9, TAddress.getText());
             pt.executeUpdate();
             JOptionPane.showMessageDialog(null, "Registration Succussfull");
+            String p = "insert into login (username, password) select username, password from register where username = ?";
+            PreparedStatement pt1 = con.prepareStatement(p);
+            pt1.setString(1,TUserName.getText());
+            pt1.executeUpdate();
             con.close();
+            MayBeHome home  = new MayBeHome();
+            home.setVisible(true);
+            dispose();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
